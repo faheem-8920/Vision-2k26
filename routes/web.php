@@ -2,7 +2,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\RenterController;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 //ADMIN CONTROLLER ROUTES //
@@ -19,30 +19,18 @@ Route::get('/goadmin', function () {
 
 //route to open addcategory page
 
-Route::get('/addcategory', function () {
-    return view('Addcategories');
+
+
+Route::middleware(['auth', 'user'])->group(function () {
+
+    Route::get('/user', function () {
+        return view('User.index');
+    });
+
 });
 
-// route to add a category
-
-Route::post('/admin/category/store', [AdminController::class, 'storeCategory']);
-
-// route to display all categories on categories page
-
-Route::get('/admin/categories', [AdminController::class, 'categories']);
 
 
-// route to open category edit page with values
-
-Route::get('/admin/category/{id}/edit', [AdminController::class, 'editCategory']);
-
-//route to update categories 
-
-Route::post('/admin/category/{id}/update', [AdminController::class, 'updateCategory']);
-
-//route to delete a category
-
-Route::delete('/admin/category/{id}', [AdminController::class, 'deleteCategory']);
 
 
 Route::middleware([
@@ -51,7 +39,12 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        $role = Auth::user()->role;
+
+        if ($role === 'admin') return redirect('/goadmin');
+        if ($role === 'user') return redirect('/');
+
+        abort(403, 'Unauthorized');
     })->name('dashboard');
 });
 
@@ -76,5 +69,43 @@ Route::post('/owner/item/{id}/update', [OwnerController::class, 'updateItem']);
 
 //route to delete items
 Route::delete('/owner/item/{id}', [OwnerController::class, 'deleteItem']);
+
+
+
+Route::middleware(['auth', 'admin'])->group(function () {
+
+    Route::get('/admin/dashboard', function () {
+        return view('Admin.index');
+    });
+
+    Route::get('/addcategory', function () {
+    return view('Addcategories');
+});
+// route to add a category
+
+Route::post('/admin/category/store', [AdminController::class, 'storeCategory']);
+
+// route to display all categories on categories page
+
+Route::get('/admin/categories', [AdminController::class, 'categories']);
+
+
+// route to open category edit page with values
+
+Route::get('/admin/category/{id}/edit', [AdminController::class, 'editCategory']);
+
+//route to update categories 
+
+Route::post('/admin/category/{id}/update', [AdminController::class, 'updateCategory']);
+
+//route to delete a category
+
+Route::delete('/admin/category/{id}', [AdminController::class, 'deleteCategory']);
+
+
+});
+
+
+
 
 
