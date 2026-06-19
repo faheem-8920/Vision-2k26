@@ -11,9 +11,10 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 
+
 class User extends Authenticatable
 {
-    use HasApiTokens;
+    use HasApiTokens; 
 
     /** @use HasFactory<UserFactory> */
     use HasFactory;
@@ -31,7 +32,34 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'phone',
+        'cnic',
+        'city',
+        'address',
+        'profile-image',
+        'is-verified',
+        'role',
+
     ];
+
+    public function ownedItems()
+{
+    return $this->hasMany(Item::class,'user_id');
+}
+
+public function renterBookings()
+{
+    return $this->hasMany(Booking::class,'renter_id');
+}
+
+public function ownerBookings()
+{
+    return $this->hasMany(Booking::class,'owner_id');
+}
+
+
+
+
 
     /**
      * The attributes that should be hidden for serialization.

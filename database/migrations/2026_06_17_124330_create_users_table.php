@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('profile_image')->nullable();
             $table->boolean('is_verified')->default(false);
             $table->string('role')->default('user');
+            $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
         });
 
