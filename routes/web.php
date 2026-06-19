@@ -5,6 +5,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('User.index');
 });
+Route::get('/goadmin', function () {
+    return view('Admin.index');
+});
+
 
 Route::middleware([
     'auth:sanctum',
