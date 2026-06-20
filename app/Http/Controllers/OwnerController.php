@@ -107,8 +107,42 @@ public function updateItem(Request $request, $id)
         'quantity' => $request->quantity,
     ]);
 
+      if ($request->hasFile('images')) {
+
+$oldImages = ItemImage::where('item_id', $item->id)->get();
+
+foreach ($oldImages as $oldImage) {
+
+    $path = public_path('uploads/items/'.$oldImage->image);
+
+    if(file_exists($path)){
+        unlink($path);
+    }
+}
+
+ItemImage::where('item_id', $item->id)->delete();
+   if ($request->hasFile('images')) {
+
+        foreach ($request->file('images') as $image) {
+
+            $fileName = time().'_'.$image->getClientOriginalName();
+
+            $image->move(
+                public_path('uploads/items'),
+                $fileName
+            );
+
+            ItemImage::create([
+                'item_id' => $item->id,
+                'image' => $fileName
+            ]);
+        }
+    }
+
     return redirect('/owner/items')
            ->with('success', 'Item Updated Successfully');
+}
+
 }
 
 public function deleteItem($id)

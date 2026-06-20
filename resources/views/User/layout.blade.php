@@ -47,9 +47,53 @@
 						<li><a href="#"><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a></li>
 					</ul>
 					<ul class="header-links pull-right">
-						<li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
-						<li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>
-					</ul>
+
+    @guest
+        <li>
+            <a href="{{ route('login') }}">
+                <i class="fa fa-sign-in"></i> Login
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ route('register') }}">
+                <i class="fa fa-user-plus"></i> Register
+            </a>
+        </li>
+    @endguest
+
+    @auth
+        <li class="dropdown">
+
+            <a class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-user"></i>
+                {{ Auth::user()->name }}
+                <i class="fa fa-angle-down"></i>
+            </a>
+
+            <ul class="dropdown-menu dropdown-menu-end shadow">
+
+                <li>
+                    <a href="{{ route('profile.show') }}">
+                        <i class="fa fa-user"></i> Profile
+                    </a>
+                </li>
+
+                <li>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button class="dropdown-item text-danger" style="border:none;background:none;">
+                            <i class="fa fa-sign-out"></i> Logout
+                        </button>
+                    </form>
+                </li>
+
+            </ul>
+
+        </li>
+    @endauth
+
+</ul>
 				</div>
 			</div>
 			<!-- /TOP HEADER -->

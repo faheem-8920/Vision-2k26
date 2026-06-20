@@ -28,7 +28,7 @@ public function storeCategory(Request $request)
     public function categories()
 {
     $categories = Category::all();
-    return view('categories', compact('categories'));
+    return view('Admin.categories', compact('categories'));
 }
 
 
@@ -46,7 +46,7 @@ public function editCategory($id)
 {
     $category = Category::findOrFail($id);
 
-    return view('editcategories', compact('category'));
+    return view('Admin.editcategories', compact('category'));
 }
 
 //function to update category
