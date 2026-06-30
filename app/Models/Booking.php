@@ -7,13 +7,24 @@ use Illuminate\Database\Eloquent\Model;
 class Booking extends Model
 {
         protected $fillable = [
-        'item_id',
+         'item_id',
         'owner_id',
         'renter_id',
+
         'start_date',
         'end_date',
+
+        'days',
+        'subtotal',
+
+        'delivery_method',
+        'delivery_address',
+        'delivery_charges',
+
         'total_amount',
         'security_deposit',
+
+        'notes',
         'status'
     ];
 
@@ -31,6 +42,13 @@ class Booking extends Model
     {
         return $this->belongsTo(User::class, 'renter_id');
     }
+
+    public function review()
+{
+    return $this->hasOne(Review::class);
+}
+
+
 }
 
 

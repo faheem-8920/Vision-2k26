@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         
-     Schema::create('reports', function (Blueprint $table) {
+    Schema::create('reports', function (Blueprint $table) {
     $table->id();
 
     $table->foreignId('reporter_id')
@@ -28,14 +28,36 @@ return new class extends Migration
           ->constrained()
           ->onDelete('cascade');
 
+    $table->foreignId('booking_id')
+          ->nullable()
+          ->constrained()
+          ->onDelete('cascade');
+
+    $table->string('report_type'); // User, Item, Booking
+
+    $table->string('subject');
+
     $table->text('reason');
+
+    $table->text('admin_response')->nullable();
+
+    $table->enum('priority', [
+        'low',
+        'medium',
+        'high'
+    ])->default('medium');
 
     $table->enum('status', [
         'pending',
-        'resolved'
+        'in_progress',
+        'resolved',
+        'rejected'
     ])->default('pending');
-            $table->timestamps();
-        });
+
+    $table->timestamp('resolved_at')->nullable();
+
+    $table->timestamps();
+         });
     }
 
     /**

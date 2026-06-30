@@ -23,9 +23,13 @@ return new class extends Migration
             $table->string('profile_image')->nullable();
             $table->boolean('is_verified')->default(false);
             $table->string('role')->default('user');
+         
+
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
         });
+
+                
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
@@ -51,5 +55,9 @@ return new class extends Migration
         Schema::dropIfExists('users');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
+           Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('is_renter');
+        });
+
     }
 };

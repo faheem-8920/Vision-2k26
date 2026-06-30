@@ -25,11 +25,14 @@ return new class extends Migration
             $table->integer('quantity')->default(1);
 
         
-            $table->enum('status', [
-        'available',
-        'rented',
-        'inactive'
-    ])->default('available');
+       $table->enum('status', [
+     'approved',   
+    'available',
+    'rented',
+    'pending',
+    'rejected',
+    'inactive'
+])->default('pending');
             
             $table->timestamps();
         });

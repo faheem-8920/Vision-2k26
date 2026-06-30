@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+
+use App\Models\User;
 use App\Models\Item;
 use App\Models\Category;
-use Illuminate\Http\Request;
+use App\Models\Booking;
 use App\Models\ItemImage;
+
+use App\Notifications\NewItemRequest;
 class OwnerController extends Controller
 {
 
@@ -32,12 +37,14 @@ public function storeItem(Request $request)
         'replacement_cost' => 'required|numeric',
         'city' => 'required',
         'address' => 'required',
-        'quantity' => 'required|integer'
+        'quantity' => 'required|integer',
+          'images' => 'required',
+    'images.*' => 'image|mimes:jpg,jpeg,png,webp|max:2048'
     ]);
 
     // function to saveitems in database
 
-   $item = Item::create([
+$item = Item::create([
     'user_id' => auth()->id(),
     'category_id' => $request->category_id,
     'title' => $request->title,
@@ -48,7 +55,7 @@ public function storeItem(Request $request)
     'city' => $request->city,
     'address' => $request->address,
     'quantity' => $request->quantity,
-    'status' => 'available'
+    'status' => 'pending'
 ]);
 
 if ($request->hasFile('images')) {
@@ -68,17 +75,20 @@ if ($request->hasFile('images')) {
         ]);
     }
 }
+$admin = User::where('role', 'admin')->first();
 
-
+if ($admin) {
+    $admin->notify(new NewItemRequest($item));
+}
     return redirect()->back()->with('success', 'Item Added Successfully');
 }
 
 public function items()
 {
-$items = Item::with([
-    'category',
-    'images'
-])->get();
+    $items = Item::with(['category','images'])
+        ->where('user_id', auth()->id()) // important
+        ->get();
+
     return view('Items', compact('items'));
 }
 
@@ -150,6 +160,97 @@ public function deleteItem($id)
     Item::findOrFail($id)->delete();
 
     return back()->with('success', 'Item Deleted Successfully');
+}
+
+public function bookingRequests()
+{
+    $bookings = Booking::with([
+        'item',
+        'renter'
+    ])
+    ->where('owner_id',auth()->id())
+    ->latest()
+    ->get();
+
+    return view(
+        'Bookingrequests',
+        compact('bookings')
+    );
+}
+
+
+public function bookingDetails($id)
+{
+    $booking = Booking::with([
+        'item.images',
+        'item.category',
+        'renter',
+        'owner'
+    ])->findOrFail($id);
+
+    return view(
+        'DetailsofBookingrequest',
+        compact('booking')
+    );
+}
+
+
+public function approveBooking($id)
+{
+    $booking = Booking::findOrFail($id);
+
+    $booking->update([
+        'status' => 'approved'
+    ]);
+
+    return back()->with(
+        'success',
+        'Booking Approved Successfully'
+    );
+}
+  
+public function rejectBooking($id)
+{
+    $booking = Booking::findOrFail($id);
+
+    $booking->update([
+        'status' => 'rejected'
+    ]);
+
+    return back()->with(
+        'success',
+        'Booking Rejected Successfully'
+    );
+}
+
+public function giveToUser($id)
+{
+    $booking = Booking::findOrFail($id);
+
+    $booking->update([
+        'status' => 'handed_over',
+        'handed_over_at' => now()
+    ]);
+
+    return back()->with(
+        'success',
+        'Item Given To User Successfully'
+    );
+}
+
+public function markReturned($id)
+{
+    $booking = Booking::findOrFail($id);
+
+    $booking->update([
+        'status' => 'returned',
+        'returned_at' => now()
+    ]);
+
+    return back()->with(
+        'success',
+        'Item Returned Successfully'
+    );
 }
 
 

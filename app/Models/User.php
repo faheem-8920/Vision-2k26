@@ -12,8 +12,7 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 
 
-class User extends Authenticatable
-{
+class User extends Authenticatable implements MustVerifyEmail{
     use HasApiTokens; 
 
     /** @use HasFactory<UserFactory> */
@@ -57,7 +56,43 @@ public function ownerBookings()
     return $this->hasMany(Booking::class,'owner_id');
 }
 
+public function renterRequest()
+{
+    return $this->hasOne(RenterRequest::class);
+}
 
+public function approvedRequests()
+{
+    return $this->hasMany(RenterRequest::class, 'approved_by');
+}
+
+public function wishlists()
+{
+    return $this->hasMany(Wishlist::class);
+}
+
+public function reviews()
+{
+    return $this->hasMany(Review::class);
+}
+
+public function ownerRequest()
+{
+    return $this->hasOne(OwnerRequest::class);
+}
+
+public function items()
+{
+    return $this->hasMany(Item::class);
+}
+
+
+
+
+public function wishlist()
+{
+    return $this->hasMany(Wishlist::class);
+}
 
 
 

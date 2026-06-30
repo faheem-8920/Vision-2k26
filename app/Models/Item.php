@@ -41,4 +41,30 @@ public function owner()
     return $this->belongsTo(User::class,'user_id');
 }
 
+public function wishlists()
+{
+    return $this->hasMany(Wishlist::class);
+}
+
+public function reviews()
+{
+    return $this->hasMany(Review::class);
+}
+
+public function averageRating()
+{
+    return round(
+        $this->reviews()->avg('rating'),
+        1
+    );
+}
+public function user()
+{
+    return $this->belongsTo(User::class);
+}
+
+
+
+
+
 }

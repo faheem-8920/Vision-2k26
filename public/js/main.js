@@ -166,3 +166,70 @@
 	}
 
 })(jQuery);
+
+const stepCards = document.querySelectorAll('.step-card');
+
+stepCards.forEach(card=>{
+
+card.addEventListener('mouseenter',()=>{
+
+card.style.transition='.4s';
+
+});
+
+});
+
+const counters = document.querySelectorAll('.counter');
+
+const startCounter = () => {
+
+    counters.forEach(counter => {
+
+        const target = +counter.getAttribute('data-target');
+
+        let count = 0;
+
+        const increment = target / 120;
+
+        const updateCounter = () => {
+
+            if(count < target){
+
+                count += increment;
+
+                counter.innerText = Math.ceil(count).toLocaleString();
+
+                requestAnimationFrame(updateCounter);
+
+            }else{
+
+                counter.innerText = target.toLocaleString();
+
+            }
+
+        }
+
+        updateCounter();
+
+    });
+
+}
+
+const observer = new IntersectionObserver(entries => {
+
+    entries.forEach(entry => {
+
+        if(entry.isIntersecting){
+
+            startCounter();
+
+            observer.disconnect();
+
+        }
+
+    });
+
+});
+
+observer.observe(document.querySelector('.statistics-section'));
+

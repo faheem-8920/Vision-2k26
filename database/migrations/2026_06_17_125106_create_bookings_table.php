@@ -32,12 +32,36 @@ return new class extends Migration
     $table->decimal('total_amount', 10, 2);
     $table->decimal('security_deposit', 10, 2);
 
+    $table->integer('days')->nullable();
+
+$table->decimal('subtotal', 10, 2)->nullable();
+
+$table->decimal('delivery_charges', 10, 2)
+      ->default(0);
+
+$table->enum('delivery_method', [
+    'pickup',
+    'delivery'
+])->nullable();
+
+$table->text('delivery_address')->nullable();
+
+$table->text('notes')->nullable();
+
+
     $table->enum('status', [
         'pending',
         'approved',
         'rejected',
-        'completed'
+        'completed',
+        'handed_over',
+        'returned',
+    
     ])->default('pending');
+
+    $table->timestamp('handed_over_at')->nullable();
+$table->timestamp('returned_at')->nullable();
+
             $table->timestamps();
         });
     }

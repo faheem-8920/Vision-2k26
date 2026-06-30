@@ -10,6 +10,7 @@
 
 		<!-- Google font -->
 		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
+   		 @stack('styles')
 
 		<!-- Bootstrap -->
 		<link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
@@ -135,7 +136,7 @@
 							<div class="header-ctn">
 								<!-- Wishlist -->
 								<div>
-									<a href="#">
+									<a href="/wishlist">
 										<i class="fa fa-heart-o"></i>
 										<span>Your Wishlist</span>
 										<div class="qty">2</div>
@@ -214,13 +215,33 @@
 				<div id="responsive-nav">
 					<!-- NAV -->
 					<ul class="main-nav nav navbar-nav">
-						<li class="active"><a href="#">Home</a></li>
-						<li><a href="#">Hot Deals</a></li>
-						<li><a href="#">Categories</a></li>
-						<li><a href="#">Laptops</a></li>
-						<li><a href="#">Smartphones</a></li>
-						<li><a href="#">Cameras</a></li>
-						<li><a href="#">Accessories</a></li>
+					<li class="active">
+    <a href="{{ url('/user') }}">Home</a>
+</li>
+
+<li>
+    <a href="{{ url('/becomeownerui') }}">Become an Owner</a>
+</li>
+
+<li>
+    <a href="{{ url('/my-bookings') }}">My Bookings</a>
+</li>
+
+<li>
+    <a href="{{ url('/wishlist') }}">Wishlist</a>
+</li>
+
+<li>
+    <a href="{{ url('/terms') }}">Terms & Policies</a>
+</li>
+
+<li>
+    <a href="{{ url('/becomeownerform') }}">List Your Item</a>
+</li>
+
+<li>
+    <a href="#contact">Contact Us</a>
+</li>
 					</ul>
 					<!-- /NAV -->
 				</div>
@@ -333,6 +354,7 @@
 		<!-- /FOOTER -->
 
          <!-- jQuery Plugins -->
+		  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 		<script src="{{ asset('js/jquery.min.js') }}"></script>
         <script src="{{ asset('js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('js/slick.min.js') }}"></script>
