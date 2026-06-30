@@ -115,3 +115,14 @@ Route::middleware(['auth', 'owner'])->group(function () {
     Route::delete('/owner/item/{id}', [OwnerController::class, 'deleteItem']);
 
 });
+
+
+Route::get('/goowner', function () {
+    return view('Vendor.index');
+});
+Route::get('/goownersignin', function () {
+    return view('Vendor.signin');
+});
+Route::get('/goownersignup', function () {
+    return view('Vendor.signup');
+});
