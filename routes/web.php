@@ -244,6 +244,7 @@ Route::middleware(['auth', 'owner'])->group(function () {
 
     Route::delete('/owner/item/{id}', [OwnerController::class, 'deleteItem']);
 
+<<<<<<< HEAD
     Route::get(
     '/owner/bookings',
     [OwnerController::class,'bookingRequests']
@@ -274,4 +275,17 @@ Route::post(
     [OwnerController::class,'markReturned']
 );
 
+=======
+});
+
+
+Route::get('/goowner', function () {
+    return view('Vendor.index');
+});
+Route::get('/goownersignin', function () {
+    return view('Vendor.signin');
+});
+Route::get('/goownersignup', function () {
+    return view('Vendor.signup');
+>>>>>>> e799d6de814e7ea86b2fd73a772079113e8ae090
 });
