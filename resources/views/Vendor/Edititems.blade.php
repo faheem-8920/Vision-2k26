@@ -1,3 +1,5 @@
+@extends('Vendor.layout')
+@section('content')
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1222,3 +1224,4 @@
 </script>
 </body>
 </html>
+@endsection

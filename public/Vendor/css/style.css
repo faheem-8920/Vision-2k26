@@ -1,8 +1,8 @@
 /********** Template CSS **********/
 :root {
-    --primary: #009CFF;
-    --light: #F3F6F9;
-    --dark: #191C24;
+    --primary: #DC2626;   /* Professional Red */
+    --light: #FFFFFF;     /* White */
+    --dark: #1F2937;      /* Dark Gray for text/navbar */
 }
 
 .back-to-top {

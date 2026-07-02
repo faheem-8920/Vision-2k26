@@ -35,7 +35,7 @@ class User extends Authenticatable implements MustVerifyEmail{
         'cnic',
         'city',
         'address',
-        'profile-image',
+        'profile_photo_path',
         'is-verified',
         'role',
 

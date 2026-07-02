@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('cnic')->unique();
             $table->string('city');
             $table->string('address');
-            $table->string('profile_image')->nullable();
+            $table->string('profile_photo_path')->nullable();
             $table->boolean('is_verified')->default(false);
             $table->string('role')->default('user');
          

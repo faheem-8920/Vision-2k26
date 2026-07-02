@@ -1,3 +1,5 @@
+@extends('User.layout')
+@section('content')
 <style>
     /* ===== IMPORTS & RESET ===== */
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
@@ -1534,9 +1536,8 @@
                 <!-- Item Name -->
                 <div class="booking-item">
                     <div class="item-icon">
-@if($booking->item->images->count())
-<img src="{{ asset('uploads/items/'.$itemImage) }}"
-     alt="{{ $itemTitle }}">                            
+                        @if($booking->item->images->count())
+                            <img src="{{ asset('uploads/items/'.$itemImage) }}" alt="{{ $itemTitle }}">
                         @else
                             <i class="bi bi-box-seam"></i>
                         @endif
@@ -1732,7 +1733,7 @@
                 Explore Items
             </a>
         </div>
-        
+
     @endforelse
 </div>
 
@@ -1744,7 +1745,16 @@
             <strong>Review Submitted</strong>
             <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
         </div>
-      
+        <div class="toast-body">
+            <div class="toast-icon-wrapper">
+                <i class="bi bi-check-lg"></i>
+            </div>
+            <div class="toast-content" id="toastMessage">
+                <p class="toast-title">Thank you!</p>
+                <p class="toast-message">Your review has been submitted successfully.</p>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- ===== CENTER SUCCESS POPUP (fires the instant Submit is clicked & valid) ===== -->
@@ -1987,3 +1997,4 @@
         }
     }
 </script>
+@endsection

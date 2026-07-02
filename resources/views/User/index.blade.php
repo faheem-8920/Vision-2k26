@@ -1,6 +1,7 @@
 @extends('User.layout')
 @section('content')
- 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+      
 <!-- ==========================================
     CATEGORY SHOP SECTION
 ========================================== -->
@@ -139,10 +140,12 @@
     </div>
 </div>
 
-<!-- ==========================================
-    RENTAL FEATURES SECTION
-========================================== -->
-<section class="features-section py-5">
+   
+
+    <!-- ==========================================
+        RENTAL FEATURES SECTION (DYNAMIC DATA)
+    ========================================== -->
+  <section class="features-section py-5">
     <div class="container">
         <div class="text-center mb-5">
             <span class="section-badge">Why Rent With Us</span>
@@ -224,124 +227,97 @@
                     <div class="step-number">04</div>
                     <div class="step-icon"><i class="fas fa-box-open"></i></div>
                     <h4>Enjoy Rental</h4>
-                    <p>Get your item and start using it.</p>
+                    <p>Get your item and start using it. </p>
                 </div>
             </div>
         </div>
     </div>
 </section>
+    <!-- ==========================================
+        TESTIMONIALS (DYNAMIC with rating stars)
+    ========================================== -->
+    <section class="testimonials py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <span class="section-badge">Testimonials</span>
+                <h2 class="section-title mt-3">What Our <span>Renters Say</span></h2>
+            </div>
 
-<!-- ==========================================
-    TESTIMONIALS
-========================================== -->
-<section class="testimonials py-5">
-    <div class="container">
-        <div class="text-center mb-5">
-            <span class="section-badge">Testimonials</span>
-            <h2 class="section-title mt-3">What Our <span>Renters Say</span></h2>
-        </div>
-
-        <div class="row g-4">
-            <div class="col-lg-4 col-md-6">
-                <div class="testimonial-card">
-                    <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
-                    <p class="testimonial-text">Renting was incredibly easy. The owner was professional and the booking process was smooth.</p>
-                    <div class="stars">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <div class="customer-info">
-                        <img src="{{ asset('assets/images/users/user1.jpg') }}" alt="Customer">
-                        <div>
-                            <h5>Ali Raza</h5>
-                            <span>Karachi</span>
+            <div class="row g-4">
+                @foreach($testimonials as $review)
+                <div class="col-lg-4 col-md-6">
+                    <div class="testimonial-card">
+                        <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+                        <p class="testimonial-text">{{ $review->review }}</p>
+                        <div class="stars">
+                            @for($i = 1; $i <= 5; $i++)
+                                @if($i <= $review->rating)
+                                    <i class="fas fa-star text-warning"></i>
+                                @else
+                                    <i class="far fa-star text-warning"></i>
+                                @endif
+                            @endfor
+                        </div>
+                        <div class="customer-info">
+                            @if($review->user->profile_photo_path)
+                                <img src="{{ asset('storage/'.$review->user->profile_photo_path) }}" alt="avatar">
+                            @else
+                                <img src="{{ asset('assets/images/default-user.png') }}" alt="default avatar">
+                            @endif
+                            <div>
+                                <h5>{{ $review->user->name }}</h5>
+                                <span>{{ $review->item->title }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="testimonial-card">
-                    <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
-                    <p class="testimonial-text">Found exactly what I needed at a reasonable price. The platform is user-friendly.</p>
-                    <div class="stars">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <div class="customer-info">
-                        <img src="{{ asset('assets/images/users/user2.jpg') }}" alt="Customer">
-                        <div>
-                            <h5>Ahmed Khan</h5>
-                            <span>Lahore</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="testimonial-card">
-                    <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
-                    <p class="testimonial-text">Secure payments and excellent support. Renting has never been this convenient.</p>
-                    <div class="stars">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <div class="customer-info">
-                        <img src="{{ asset('assets/images/users/user3.jpg') }}" alt="Customer">
-                        <div>
-                            <h5>Sarah Malik</h5>
-                            <span>Islamabad</span>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- ==========================================
-    STATISTICS
-========================================== -->
-<section class="statistics-section py-5">
-    <div class="container">
-        <div class="text-center mb-5">
-            <span class="section-badge">Our Achievements</span>
-            <h2 class="section-title mt-3">Trusted by <span>Thousands</span></h2>
-        </div>
+    <!-- ==========================================
+        STATISTICS (DYNAMIC)
+    ========================================== -->
+    <section class="statistics-section py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <span class="section-badge">Our Achievements</span>
+                <h2 class="section-title mt-3">Trusted by <span>Thousands</span></h2>
+            </div>
 
-        <div class="row g-4">
-            <div class="col-lg-3 col-md-6">
-                <div class="stat-card">
-                    <div class="stat-icon"><i class="fas fa-box-open"></i></div>
-                    <h2 class="counter" data-target="5000">0</h2>
-                    <h5>Rental Items</h5>
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-box-open"></i></div>
+                        <h2>{{ number_format($totalItems) }}</h2>
+                        <h5>Rental Items</h5>
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="stat-card">
-                    <div class="stat-icon"><i class="fas fa-user-check"></i></div>
-                    <h2 class="counter" data-target="1200">0</h2>
-                    <h5>Verified Owners</h5>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-user-check"></i></div>
+                        <h2>{{ number_format($verifiedOwners) }}</h2>
+                        <h5>Verified Owners</h5>
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="stat-card">
-                    <div class="stat-icon"><i class="fas fa-calendar-check"></i></div>
-                    <h2 class="counter" data-target="25000">0</h2>
-                    <h5>Bookings Made</h5>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-calendar-check"></i></div>
+                        <h2>{{ number_format($totalBookings) }}</h2>
+                        <h5>Bookings Made</h5>
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="stat-card">
-                    <div class="stat-icon"><i class="fas fa-star"></i></div>
-                    <h2><span class="counter" data-target="98">0</span>%</h2>
-                    <h5>Satisfaction Rate</h5>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-star"></i></div>
+                        <h2>{{ $satisfactionRate }}%</h2>
+                        <h5>Satisfaction Rate</h5>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
 <!-- ==========================================
     NEWSLETTER

@@ -244,7 +244,9 @@ Route::middleware(['auth', 'owner'])->group(function () {
 
     Route::delete('/owner/item/{id}', [OwnerController::class, 'deleteItem']);
 
-<<<<<<< HEAD
+    Route::get('/owner/item/{id}', [OwnerController::class, 'viewOwnerItem']);
+
+
     Route::get(
     '/owner/bookings',
     [OwnerController::class,'bookingRequests']
@@ -275,8 +277,26 @@ Route::post(
     [OwnerController::class,'markReturned']
 );
 
-=======
+
+Route::get('/owner/notifications', [OwnerController::class, 'notifications']);
+
+Route::get('/owner/notifications/read/{id}', [OwnerController::class, 'markNotificationRead']);
+
+
+Route::post('/owner/notifications/read/{id}', [OwnerController::class, 'markNotificationRead']);
+
+Route::post('/owner/notifications/read-all', [OwnerController::class, 'markAllNotificationsRead']);
+
+Route::delete('/owner/notifications/{id}', [OwnerController::class, 'deleteNotification']);
+
+
 });
+
+Route::get('/owner/reviews', [OwnerController::class, 'reviews']);
+
+Route::get('/owner/review/{id}', [OwnerController::class, 'viewReview']);
+
+Route::get('/owner/analytics', [OwnerController::class, 'analytics']);
 
 
 Route::get('/goowner', function () {
@@ -287,5 +307,4 @@ Route::get('/goownersignin', function () {
 });
 Route::get('/goownersignup', function () {
     return view('Vendor.signup');
->>>>>>> e799d6de814e7ea86b2fd73a772079113e8ae090
 });

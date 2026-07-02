@@ -7,8 +7,13 @@ use App\Models\Booking;
 use App\Models\Item;
 use App\Models\Wishlist;
 use App\Models\Review;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\BookingRequestMail;
+use App\Models\OwnerRequest;
+
 use App\Models\User;
 use App\Notifications\NewBookingNotification;
+use App\Notifications\NewReviewNotification;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -19,14 +24,54 @@ class RenterController extends Controller
 
 public function categories()
 {
-    $products = Item::with(['category','images','reviews'])
+    $products = Item::with([
+            'category',
+            'images',
+            'reviews'
+        ])
         ->where('status', 'available')
         ->latest()
         ->get();
 
     $allcategories = Category::take(3)->get();
 
-    return view('User.index', compact('allcategories','products'));
+    // Statistics
+
+    // Total Rental Items
+    $totalItems = Item::where('status', 'available')->count();
+
+    // Verified Owners
+
+$verifiedOwners = OwnerRequest::where('status', 'approved')->count();
+    // Total Bookings
+    $totalBookings = Booking::count();
+
+    // Satisfaction Rate
+    $averageRating = Review::avg('rating');
+
+    $satisfactionRate = $averageRating
+        ? round(($averageRating / 5) * 100)
+        : 0;
+
+ $testimonials = Review::with([
+    'user',
+    'item'
+])
+->latest()
+->take(6)
+->get();
+
+
+    return view('User.index', compact(
+        'products',
+        'allcategories',
+        'totalItems',
+        'verifiedOwners',
+        'totalBookings',
+        'satisfactionRate',
+            'testimonials'
+
+    ));
 }
 
 
@@ -119,6 +164,11 @@ public function showItem($id)
 
 
 $admin = User::where('role','admin')->first();
+
+
+
+Mail::to($booking->item->user->email)
+    ->send(new BookingRequestMail($booking));
 
 $admin->notify(
     new NewBookingNotification()
@@ -272,7 +322,7 @@ public function submitReview(Request $request,$id)
         'review' => $request->review
 
     ]);
-
+$review->item->user->notify(new NewReviewNotification($review));
     return back()->with(
         'success',
         'Review submitted successfully.'

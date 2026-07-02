@@ -1108,7 +1108,7 @@
                             <div class="drop-zone" id="dropZone">
                                 <div class="drop-icon"><i class="fas fa-cloud-upload-alt"></i></div>
                                 <div class="drop-text">Drag & drop your image here, or <span>browse</span></div>
-                                <input type="file" id="profile_image" name="profile_image" accept="image/*">
+                                <input type="file" id="profile_image" name="profile_photo" accept="image/*">
                             </div>
                             <div class="file-preview" id="filePreview">
                                 <i class="fas fa-file-image"></i>

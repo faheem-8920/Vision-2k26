@@ -10,8 +10,18 @@ use App\Models\Wishlist;
 use App\Models\OwnerRequest;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-use App\Notifications\NewOwnerRequest;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OwnerApprovedMail;
+use App\Mail\OwnerRejectedMail;
+use App\Mail\ItemApprovedMail;
+use App\Mail\ItemRejectedMail;
 
+
+
+
+
+use App\Notifications\NewOwnerRequest;
+use App\Mail\OwnerApplicationSubmittedMail;
 use App\Notifications\ItemRejected;
 use App\Notifications\ItemApproved;
 use App\Notifications\OwnerRequestApproved;
@@ -241,6 +251,11 @@ foreach($admins as $admin)
 {
     $admin->notify(new NewOwnerRequest($user));
 }
+
+
+// After saving the owner application
+Mail::to($user->email)->send(new OwnerApplicationSubmittedMail($user));
+
         return redirect()
             ->back()
             ->with('success', 'Request submitted successfully.');
@@ -273,7 +288,7 @@ $user = User::findOrFail($request->user_id);
 
    // Notification
     $user->notify(new OwnerRequestApproved());
-
+    Mail::to($user->email)->send(new OwnerApprovedMail($user));
     return back()->with('success', 'User approved as Owner successfully.');
 }
 
@@ -292,9 +307,11 @@ public function reject($id)
 $user = User::findOrFail($request->user_id);
 
 
+Mail::to($item->user->email)->send(new ItemRejectedMail($item));
         // Notification
     $user->notify(new OwnerRequestRejected());
-
+    // After rejecting the application
+Mail::to($user->email)->send(new OwnerRejectedMail($user));
     return back()->with('success', 'Owner request rejected.');
 }
 
@@ -328,7 +345,9 @@ $user = User::findOrFail($item->user_id);
     // Notification
     $user->notify(new ItemApproved());
 
-    return back()->with(
+Mail::to($item->user->email)->send(new ItemApprovedMail($item));
+    
+return back()->with(
         'success',
         'Item accepted successfully.'
     );

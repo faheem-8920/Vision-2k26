@@ -109,12 +109,32 @@
 					<div class="row">
 						<!-- LOGO -->
 						<div class="col-md-3">
-							<div class="header-logo">
-								<a href="#" class="logo">
-									<img src="./img/logo.png" alt="">
-								</a>
-							</div>
-						</div>
+    <div class="header-logo">
+        <a href="#" class="logo">
+            <svg class="rentify-logo" viewBox="0 0 230 56" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="rfGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#ff4747"/>
+                        <stop offset="100%" stop-color="#c91414"/>
+                    </linearGradient>
+                </defs>
+
+                <circle class="rf-badge" cx="28" cy="28" r="22" fill="url(#rfGrad)"/>
+
+                <g class="rf-loop">
+                    <path d="M17 22 A12 12 0 0 1 39 22" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round"/>
+                    <path d="M35 17 L39 22 L34 25" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M39 34 A12 12 0 0 1 17 34" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round"/>
+                    <path d="M21 39 L17 34 L22 31" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+                </g>
+
+                <text x="62" y="30" class="rf-word">Rentify</text>
+                <text x="62" y="44" class="rf-tag">RENT · LEND · EARN</text>
+                <rect class="rf-rule" x="62" y="35" width="0" height="2" rx="1" fill="#ffffff"/>
+            </svg>
+        </a>
+    </div>
+</div>
 						<!-- /LOGO -->
 
 						<!-- SEARCH BAR -->
